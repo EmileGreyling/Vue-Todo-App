@@ -2,14 +2,18 @@
 
 #app {
   padding-top: 3rem;
-  font-weight: normal;
+  width: 40%;
 }
 
+@media only screen and (max-width: 459px ) {
+  #app {
+    width: 90%;
+  }
+}
 
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* align-items: center; */
   font-family: 'Poppins', sans-serif;
 }

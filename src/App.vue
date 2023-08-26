@@ -79,6 +79,10 @@ let id = 0
 
 .todo-title {
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  width: 70%;
 }
 
 input {
@@ -100,6 +104,7 @@ input {
   width: 1.5rem;
   height: 1.5rem;
 }
+
 .img-check {
   width: 0.6rem;
   height: 0.6rem;
@@ -130,18 +135,16 @@ input {
 
 .todo {
   display: flex;
-  /* Use flex container */
   justify-content: space-between;
-  /* Space between items */
   background-color: #25273c;
   color: white;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 6px;
+  font-size: large;
 }
 
 .delete-button {
-  /* background: linear-gradient(-90deg, #e52222, #833c3c); */
   background: none;
   border: none;
   padding: 3px 10px;
@@ -153,4 +156,11 @@ input {
 .delete-button:hover {
   background-color: #434557;
   transition: background-color 500ms;
-}</style>
+}
+
+@media only screen and (max-width: 460px) {
+  .todo {
+    font-size: medium;
+  }
+}
+</style>
