@@ -2,7 +2,7 @@
   <div class="">
     <h1 id="heading">Todo App</h1>
     <form id="todo-form" @submit.prevent="addTodo">
-      <input v-model="newTodo" placeholder="Add a new todo...">
+      <input v-model="newTodo" placeholder="Add a new todo..." maxlength="50">
       <button id="add-button" type="submit">Add Todo</button>
     </form>
 
