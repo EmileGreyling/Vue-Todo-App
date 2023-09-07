@@ -7,14 +7,20 @@
     </form>
 
     <div class="todo-container">
-      <div class="todo" v-for="todo in todos" :key="todo.id">
-        <div class="check" @click="markTodo(todo)"  :class="{ colored: todo.checked }">
-          <img v-if="todo.checked" class="img-check" src="./assets/icon-check.svg" alt="">
-        </div>
-        <p @click="markTodo(todo)" class="todo-title" :class="{checked: todo.checked}">{{ todo.text }}</p>
-        <button @click="removeTodo(todo)" class="delete-button">X</button>
+      <div v-for="todo in todos" :key="todo.id">
+        <Transition name="slide-fade">
+          <div class="todo" v-if="!todo.removed">
+            <div class="check" @click="markTodo(todo)" :class="{ colored: todo.checked }">
+            <img v-if="todo.checked" class="img-check" src="./assets/icon-check.svg" alt="">
+            </div>
+            <p @click="markTodo(todo)" class="todo-title" :class="{ checked: todo.checked }">{{ todo.text }}</p>
+            <button @click="removeTodo(todo)" class="delete-button">X</button>
+          </div>
+          
+        </Transition>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -33,14 +39,18 @@ export default {
         return
       }
 
-      this.todos.push({ id: id++, text: this.newTodo, checked: false })
+      this.todos.push({ id: id++, text: this.newTodo, checked: false, removed: false })
       localStorage.setItem("Todos", JSON.stringify(this.todos))
       this.newTodo = ''
     },
 
     removeTodo(todo) {
-      this.todos = this.todos.filter((t) => t !== todo)
-      localStorage.setItem("Todos", JSON.stringify(this.todos))
+      todo.removed = true
+      setTimeout(() => {
+        this.todos = this.todos.filter((t) => t !== todo)
+        localStorage.setItem("Todos", JSON.stringify(this.todos))
+      }, 500)
+      
     },
 
     markTodo(todo) {
@@ -81,7 +91,7 @@ let id = 0
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; 
+  white-space: nowrap;
   width: 70%;
 }
 
@@ -109,6 +119,7 @@ input {
   width: 0.6rem;
   height: 0.6rem;
 }
+
 .colored {
   background: linear-gradient(150deg, #84cf6a, #16c0b0);
   display: flex;
@@ -158,9 +169,22 @@ input {
   transition: background-color 500ms;
 }
 
-@media only screen and (max-width: 460px) {
+@media only screen and (max-width: 750px) {
   .todo {
     font-size: medium;
   }
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(100px);
+  opacity: 0;
 }
 </style>
